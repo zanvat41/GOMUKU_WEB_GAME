@@ -1,5 +1,6 @@
+const AI_NAME = "GOMOKU-AI";
 var player1 = "P1";
-var player2 = "GOMOKU-AI";
+var player2 = AI_NAME;
 
 // popup modal for player to input names
 window.addEventListener('DOMContentLoaded', function() {
@@ -12,6 +13,11 @@ window.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         player1 = p1Input.value.trim() || p1Input.placeholder;
         player1 = player1;
+
+		if(player1 === AI_NAME) {
+			player1 += "(Player)";
+		}
+
         modal.style.display = "none";
         if (vsTitle) {
             vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
@@ -128,7 +134,7 @@ function resetGame(first){
 		p2Win[i] = 0;
 	}
 
-	// If player chooses to switch sides, let computer (now player1) make the first move
+	// If player chooses to go second, assign white pieces player
 	if(!first){
 		me = false;
 	}

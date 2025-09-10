@@ -15,6 +15,12 @@ window.addEventListener('DOMContentLoaded', function() {
         player1 = player1;
         player2 = p2Input.value.trim() || p2Input.placeholder;
         player2 = player2;
+
+		if(player1 === player2) {
+			player1 += "1";
+			player2 += "2";
+		}
+
         modal.style.display = "none";
         if (vsTitle) {
             vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
