@@ -26,6 +26,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 var chessBoard; // status of each position on the board
 var me; // true: player1's turn; false: player2's/computer's turn
+var goFirst; // true: player chooses to go first; false: player chooses to let computer go first
 var over; // game over flag
 
 var wins; // winning patterns array
@@ -42,14 +43,15 @@ context.strokeStyle = "#BFBFBF";
 var logo = new Image();
 logo.src = "image/logo.png";
 
-resetGame();
+resetGame(true);
 
 drawLogoAndBoard();
 
 // Reset related variables and arrays
-function resetGame(){
+function resetGame(first){
 	chessBoard = [];
 	me = true; 
+	goFirst = first; // true if player chooses to go first
 	over = false;
 	wins = [];
 	p1Win = [];
@@ -125,6 +127,11 @@ function resetGame(){
 		p1Win[i] = 0;
 		p2Win[i] = 0;
 	}
+
+	// If player chooses to switch sides, let computer (now player1) make the first move
+	if(!first){
+		me = false;
+	}
 }
 
 function drawLogoAndBoard(){
@@ -190,11 +197,20 @@ chess.onclick = function(e){
 		chessBoard[i][j] = 1;
 		for(var k = 0; k < count; k++){
 			if(wins[i][j][k]){
-				p1Win[k]++;
-				p2Win[k] = 6; // player2 cannot win kth winning pattern anymore
-				if(p1Win[k] == 5){
-					over = true;
-					showPopupMessage(player1 + " wins!");
+				if(me){
+					p1Win[k]++;
+					p2Win[k] = 6; // player2 cannot win kth winning pattern anymore
+					if(p1Win[k] == 5){
+						over = true;
+						showPopupMessage(player1 + "(B) wins!");
+					}
+				}else {
+					p2Win[k]++;
+					p1Win[k] = 6; // player1 cannot win kth winning pattern anymore
+					if(p2Win[k] == 5){
+						over = true;
+						showPopupMessage(player2 + "(W) wins!");
+					}
 				}
 			}
 		}
@@ -287,11 +303,20 @@ function computerAI(){
 
 	for(var k = 0; k < count; k++){
 		if(wins[u][v][k]){
-			p2Win[k]++;
-			p1Win[k] = 6;
-			if(p2Win[k] == 5){
-				over = true;
-				showPopupMessage(player2 + " wins!");
+			if(me){
+				p1Win[k]++;
+				p2Win[k] = 6; // player2 cannot win kth winning pattern anymore
+				if(p1Win[k] == 5){
+					over = true;
+					showPopupMessage(player1 + "(B) wins!");
+				}
+			}else {
+				p2Win[k]++;
+				p1Win[k] = 6; // player1 cannot win kth winning pattern anymore
+				if(p2Win[k] == 5){
+					over = true;
+					showPopupMessage(player2 + "(W) wins!");
+				}
 			}
 		}
 	}
@@ -300,24 +325,63 @@ function computerAI(){
 	}
 }
 
+// Restart game with option to switch sides
 function restartGame() {
-	resetGame()
-    
-	// Reset the canvas
-    context.clearRect(0, 0, 450, 450);
-
-    // Redraw logo and board grid directly
-	drawLogoAndBoard();
-
-    // Hide modal if visible
+    // Hide winner modal and remove winner message/restart button
     var modal = document.getElementById('nameModal');
     if (modal) modal.style.display = "none";
-
-    // Remove winner message and restart button if present
     var oldMsg = document.getElementById('winnerMsg');
     if (oldMsg) oldMsg.remove();
     var oldBtn = document.getElementById('restartBtn');
     if (oldBtn) oldBtn.remove();
+
+    // Show the switch sides modal
+    var switchModal = document.getElementById('switchSidesModal');
+    if (switchModal) switchModal.style.display = "block";
+
+    // Set up button handlers
+    var yesBtn = document.getElementById('switchYes');
+    var noBtn = document.getElementById('switchNo');
+
+    yesBtn.onclick = function() {
+        // Swap player names
+        var temp = player1;
+        player1 = player2;
+        player2 = temp;
+
+        // Update VS title if present
+        var vsTitle = document.getElementById('vsTitle');
+        if (vsTitle) {
+            vsTitle.textContent = player1 + "(B) VS " + player2 + "(W)";
+        }
+
+        switchModal.style.display = "none";
+        actuallyRestartGame(!goFirst);
+    };
+
+    noBtn.onclick = function() {
+        switchModal.style.display = "none";
+        actuallyRestartGame(goFirst);
+    };
+}
+
+// The actual restart logic
+function actuallyRestartGame(first) {
+	// Reset game state
+    resetGame(first);
+
+    // Reset the canvas
+    context.clearRect(0, 0, 450, 450);
+
+    // Redraw logo and board grid directly
+    drawLogoAndBoard();
+
+	// if computer is to go first, let it make the first move
+	// and place the first piece in the center
+	if(!first){
+		oneStep(7, 7, true);	
+		chessBoard[7][7] = 1;
+	}
 }
 
 function showPopupMessage(message) {
