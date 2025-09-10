@@ -1,6 +1,24 @@
 var player1 = "P1";
 var player2 = "P2";
 
+var chessBoard; // status of each position on the board
+var me; // true: player1's turn; false: player2's/computer's turn
+var over; // game over flag
+
+var wins; // winning patterns array
+
+// winning patterns count arrays for each player
+var p1Win;
+var p2Win;
+
+var count; // total winning patterns count
+
+var chess = document.getElementById('chess');
+var context = chess.getContext('2d');
+context.strokeStyle = "#BFBFBF";
+var logo = new Image();
+logo.src = "image/logo.png";
+
 // popup modal for player to input names
 window.addEventListener('DOMContentLoaded', function() {
     var modal = document.getElementById('nameModal');
@@ -22,9 +40,45 @@ window.addEventListener('DOMContentLoaded', function() {
 		}
 
         modal.style.display = "none";
-        if (vsTitle) {
-            vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
+
+        // Show the switch sides modal for initial side selection
+        var switchModal = document.getElementById('switchSidesModal');
+        if (switchModal) switchModal.style.display = "block";
+
+        // Set the message before showing the modal
+        var switchSidesMsg = document.getElementById('switchSidesMsg');
+        if (switchSidesMsg) {
+            switchSidesMsg.textContent = "Now " + player1 + " is using black pieces. And " + player2 + " is using white pieces. Do you want to switch sides?";
         }
+
+        var yesBtn = document.getElementById('switchYes');
+        var noBtn = document.getElementById('switchNo');
+
+        // Remove previous handlers to avoid stacking
+        yesBtn.onclick = null;
+        noBtn.onclick = null;
+
+        yesBtn.onclick = function() {
+            // Player1 chooses to go second (White)
+        	var temp = player1;
+        	player1 = player2;
+            player2 = temp;
+
+            if (vsTitle) {
+                vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
+            }
+            switchModal.style.display = "none";
+			actuallyRestartGame();
+        };
+
+        noBtn.onclick = function() {
+            // Player1 goes first (Black)
+            if (vsTitle) {
+                vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
+            }
+            switchModal.style.display = "none";
+			actuallyRestartGame();
+        };
     };
 
     // Set initial title if modal is not shown (e.g. after restart)
@@ -32,26 +86,6 @@ window.addEventListener('DOMContentLoaded', function() {
         vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
     }
 });
-
-var chessBoard; // status of each position on the board
-var me; // true: player1's turn; false: player2's/computer's turn
-var over; // game over flag
-
-var wins; // winning patterns array
-
-// winning patterns count arrays for each player
-var p1Win;
-var p2Win;
-
-var count; // total winning patterns count
-
-var chess = document.getElementById('chess');
-var context = chess.getContext('2d');
-context.strokeStyle = "#BFBFBF";
-var logo = new Image();
-logo.src = "image/logo.png";
-
-resetGame();
 
 drawLogoAndBoard();
 
@@ -237,9 +271,19 @@ function restartGame() {
     var switchModal = document.getElementById('switchSidesModal');
     if (switchModal) switchModal.style.display = "block";
 
+	// Set the message before showing the modal
+    var switchSidesMsg = document.getElementById('switchSidesMsg');
+    if (switchSidesMsg) {
+        switchSidesMsg.textContent = "Now " + player1 + " is using black pieces. And " + player2 + " is using white pieces. Do you want to switch sides?";
+    }
+
     // Set up button handlers
     var yesBtn = document.getElementById('switchYes');
     var noBtn = document.getElementById('switchNo');
+
+	// Remove previous handlers to avoid stacking
+    yesBtn.onclick = null;
+    noBtn.onclick = null;
 
     yesBtn.onclick = function() {
         // Swap player names

@@ -2,34 +2,6 @@ const AI_NAME = "GOMOKU-AI";
 var player1 = "P1";
 var player2 = AI_NAME;
 
-// popup modal for player to input names
-window.addEventListener('DOMContentLoaded', function() {
-    var modal = document.getElementById('nameModal');
-    var form = document.getElementById('nameForm');
-    var p1Input = document.getElementById('player1Input');
-    var vsTitle = document.getElementById('vsTitle');
-
-    form.onsubmit = function(e) {
-        e.preventDefault();
-        player1 = p1Input.value.trim() || p1Input.placeholder;
-        player1 = player1;
-
-		if(player1 === AI_NAME) {
-			player1 += "(Player)";
-		}
-
-        modal.style.display = "none";
-        if (vsTitle) {
-            vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
-        }
-    };
-
-    // Set initial title if modal is not shown (e.g. after restart)
-    if (vsTitle && player1 && player2) {
-        vsTitle.textContent = player1 + "(B) vs " + player2 +"(W)";
-    }
-});
-
 var chessBoard; // status of each position on the board
 var me; // true: player1's turn; false: player2's/computer's turn
 var goFirst; // true: player chooses to go first; false: player chooses to let computer go first
@@ -49,7 +21,69 @@ context.strokeStyle = "#BFBFBF";
 var logo = new Image();
 logo.src = "image/logo.png";
 
-resetGame(true);
+// popup modal for player to input names
+window.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('nameModal');
+    var form = document.getElementById('nameForm');
+    var p1Input = document.getElementById('player1Input');
+    var vsTitle = document.getElementById('vsTitle');
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        player1 = p1Input.value.trim() || p1Input.placeholder;
+        player1 = player1;
+
+        if(player1 === AI_NAME) {
+            player1 += "(Player)";
+        }
+
+        modal.style.display = "none";
+
+        // Show the switch sides modal for initial side selection
+        var switchModal = document.getElementById('switchSidesModal');
+        if (switchModal) switchModal.style.display = "block";
+
+        // Set the message before showing the modal
+        var switchSidesMsg = document.getElementById('switchSidesMsg');
+        if (switchSidesMsg) {
+            switchSidesMsg.textContent = "Now " + player1 + " is using black pieces. And " + player2 + " is using white pieces. Do you want to switch sides?";
+        }
+
+        var yesBtn = document.getElementById('switchYes');
+        var noBtn = document.getElementById('switchNo');
+
+        // Remove previous handlers to avoid stacking
+        yesBtn.onclick = null;
+        noBtn.onclick = null;
+
+        yesBtn.onclick = function() {
+            // Player chooses to go second (White)
+        	var temp = player1;
+        	player1 = player2;
+            player2 = temp;
+
+            if (vsTitle) {
+                vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
+            }
+            switchModal.style.display = "none";
+            actuallyRestartGame(false);
+        };
+
+        noBtn.onclick = function() {
+            // Player goes first (Black)
+            if (vsTitle) {
+                vsTitle.textContent = player1 + "(B) vs " + player2 + "(W)";
+            }
+            switchModal.style.display = "none";
+            actuallyRestartGame(true); 
+        };
+    };
+
+    // Set initial title if modal is not shown (e.g. after restart)
+    if (vsTitle && player1 && player2) {
+        vsTitle.textContent = player1 + "(B) vs " + player2 +"(W)";
+    }
+});
 
 drawLogoAndBoard();
 
@@ -345,9 +379,19 @@ function restartGame() {
     var switchModal = document.getElementById('switchSidesModal');
     if (switchModal) switchModal.style.display = "block";
 
+	// Set the message before showing the modal
+    var switchSidesMsg = document.getElementById('switchSidesMsg');
+    if (switchSidesMsg) {
+        switchSidesMsg.textContent = "Now " + player1 + " is using black pieces. And " + player2 + " is using white pieces. Do you want to switch sides?";
+    }
+
     // Set up button handlers
     var yesBtn = document.getElementById('switchYes');
     var noBtn = document.getElementById('switchNo');
+
+	// Remove previous handlers to avoid stacking
+    yesBtn.onclick = null;
+    noBtn.onclick = null;
 
     yesBtn.onclick = function() {
         // Swap player names
