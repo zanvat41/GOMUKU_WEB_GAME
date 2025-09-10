@@ -1,5 +1,6 @@
 ## UI
-Using html canvas and javascript code to draw chessboard and chess pieces.
+
+The game interface is built with HTML Canvas and JavaScript. The chessboard grid and pieces are drawn dynamically on the canvas, providing a smooth and interactive experience. Players can click directly on the board to place their pieces. Modal dialogs are used for entering player names, displaying game results, and restarting or switching sides, making the UI user-friendly and visually clear.
 
 ## Winning Algorithm
 
