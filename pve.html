@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "utf-8">
+    <title>GOMOKU</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div id="nameModal" class="modal">
+      <div class="modal-content" id="modalContent">
+        <h2 id="modalTitle">Enter Player Names</h2>
+        <form id="nameForm" autocomplete="off">
+          <label>
+            Player 1:
+            <input type="text" id="player1Input" placeholder="P1" />
+          </label>
+          <br><br>
+          <button type="submit" class="btn">Start Game</button>
+        </form>
+      </div>
+    </div>
+    <button class="btn top-left" onclick="location.href='index.html'">Home</button>
+    <button class="btn top-left top-left-second" onclick="restartGame()">Restart</button>
+    <h2 id="vsTitle" style="margin-top:30px; margin-bottom:10px;"></h2>
+    <canvas id="chess" width="450px" height="450px"></canvas>
+    <script type="text/javascript" src="js/pve.js"></script>
+</body>
+</html>

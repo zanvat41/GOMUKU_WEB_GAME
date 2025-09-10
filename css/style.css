@@ -1,0 +1,96 @@
+canvas{
+	display: block;
+	margin: 50px auto;
+	box-shadow: -2px -2px 2px #EFEFEF, 5px 5px 5px #B9B9B9;
+}
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 100px;
+    background: #f5f5f5;
+    position: relative; /* Add this line */
+}
+h1 {
+    margin-bottom: 40px;
+}
+.btn {
+    display: inline-block;
+    padding: 16px 32px;
+    /* margin: 20px; */   /* Remove this line */
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 220px;
+    min-height: 56px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.btn:hover {
+    background: #555;
+}
+.btn.top-left {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    margin: 0;
+}
+
+.btn.top-left.top-left-second {
+    position: absolute;
+    top: 76px;   /* 10px(top) + 56px(height) + 10px(gap) */
+    left: 20px;  /* Align with Home button */
+}
+
+/* Modal styles */
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+}
+.modal-content {
+    position: relative;
+    background: #fff;
+    margin: 10% auto;
+    padding: 30px 40px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.modal-content input[type="text"] {
+    width: 80%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+#switchSidesModal .modal-content {
+    text-align: center;
+}
+
+.modal-btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.btn.small {
+    padding: 8px 20px;
+    font-size: 15px;
+    min-width: 70px;
+    min-height: 36px;
+}
