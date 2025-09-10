@@ -3,7 +3,7 @@ var player1 = "P1";
 var player2 = AI_NAME;
 
 var chessBoard; // status of each position on the board
-var me; // true: player1's turn; false: player2's/computer's turn
+var me; // true: black piece's turn; false: white piece's turn
 var goFirst; // true: player chooses to go first; false: player chooses to let computer go first
 var over; // game over flag
 
@@ -20,6 +20,7 @@ var context = chess.getContext('2d');
 context.strokeStyle = "#BFBFBF";
 var logo = new Image();
 logo.src = "image/logo.png";
+var placeSound = new Audio('audio/drop.ogg');
 
 // popup modal for player to input names
 window.addEventListener('DOMContentLoaded', function() {
@@ -222,6 +223,11 @@ function oneStep(i, j, me){
 	context.fillStyle = gradient;
 	context.fill();
 
+    // Play sound when a piece is placed
+    if (placeSound) {
+        placeSound.currentTime = 0;
+        placeSound.play();
+    }
 }
 
 chess.onclick = function(e){
@@ -257,7 +263,10 @@ chess.onclick = function(e){
 
 		if(!over){
 			me = !me;
-			setTimeout(computerAI, 100);
+			// Add a slight delay before the computer makes its move
+			// to simulate thinking time.
+			// And provide better user experience.
+			setTimeout(computerAI, 500);
 		}
 	}
 	
