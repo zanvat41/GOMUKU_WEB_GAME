@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <title>GOMOKU GAMEPLAY</title>
@@ -10,7 +10,7 @@
       <div class="modal-content" id="modalContent">
         <h2 id="modalTitle">Enter Player Names</h2>
         <form id="nameForm" autocomplete="off">
-          <label>
+          <label id="player1Label">
             Player 1:
             <input type="text" id="player1Input" placeholder="P1" />
           </label>
@@ -39,6 +39,16 @@
     <button class="btn top-left top-left-third" id="switchModeBtn"></button>
     <h2 id="vsTitle" style="margin-top:30px; margin-bottom:10px;"></h2>
     <canvas id="chess" width="450px" height="450px"></canvas>
+    <div class="lang-switch-container">
+      <button id="langGearBtn" class="lang-gear-btn">
+        <span class="gear-icon">&#9881;</span>
+      </button>
+      <div id="langDropdown" class="lang-dropdown">
+        <div class="lang-option" data-lang="en">English</div>
+        <div class="lang-option" data-lang="zh">中文</div>
+      </div>
+    </div>
     <script type="text/javascript" src="js/game.js"></script>
+    <script src="js/lang.js"></script>
 </body>
 </html>

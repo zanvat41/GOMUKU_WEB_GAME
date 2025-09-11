@@ -6,8 +6,19 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <h1>WELCOME TO GOMOKU GAME</h1>
-    <button class="btn" onclick="location.href='game.html?mode=pvp'">Play with Friend</button>
-    <button class="btn" onclick="location.href='game.html?mode=pve'">Play with Computer</button>
+    <h1 id="welcomeText">WELCOME TO GOMOKU GAME</h1>
+    <button class="btn" id="playFriendBtn" onclick="location.href='game.html?mode=pvp'">Play with Friend</button>
+    <button class="btn" id="playComputerBtn" onclick="location.href='game.html?mode=pve'">Play with Computer</button>
+    <div class="lang-switch-container">
+      <button id="langGearBtn" class="lang-gear-btn">
+        <span class="gear-icon">&#9881;</span>
+      </button>
+      <div id="langDropdown" class="lang-dropdown">
+        <div class="lang-option" data-lang="en">English</div>
+        <div class="lang-option" data-lang="zh">中文</div>
+      </div>
+    </div>
+    <script src="js/lang.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
