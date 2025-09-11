@@ -129,12 +129,15 @@ drawLogoAndBoard();
 function resetGame(first) {
     chessBoard = []; // 0: empty, 1: player1, 2: player2/computer
     me = true; // true: black piece's turn, false: white piece's turn
-    goFirst = first !== undefined ? first : true;
-    over = false;
-    wins = [];
+    goFirst = first !== undefined ? first : true; // does player go first in pve mode
+    over = false; // game over flag
+    wins = []; // winning patterns array
+
+    // player/computer win counts for each pattern
     p1Win = [];
     p2Win = [];
-    count = 0;
+
+    count = 0; // total number of winning patterns
 
     for (let i = 0; i < 15; i++) {
         chessBoard[i] = [];
@@ -149,6 +152,17 @@ function resetGame(first) {
         }
     }
     // horizontal
+    // Example: setting wins[0][0][0], wins[0][1][0], wins[0][2][0], wins[0][3][0], wins[0][4][0] all true  
+	// means the first horizontal line(from (0, 0) to (0, 4)) is a winning pattern, 
+	// and this winning pattern is the 0th pattern.
+	// Another example: setting wins[0][1][1], wins[0][2][1], wins[0][3][1], wins[0][4][1], wins[0][5][1] all true
+	// means the second horizontal line(from (0, 1) to (0, 5)) is a winning pattern, 
+	// and this winning pattern is the 1st pattern.
+	// Same for vertical, diagonal and anti-diagonal lines.
+	// So we can use wins[i][j][k] to check if the position (i, j) is in the k-th winning pattern.
+	// And we can use p1Win[k] and p2Win[k] to count how many pieces player1 and player2/computer have in the k-th winning pattern.
+	// When p1Win[k] or p2Win[k] reaches 5, that means player1 or player2/computer wins.
+	// This design greatly reduces the time complexity of checking for a win after each move.
     for (let i = 0; i < 15; i++) {
         for (let j = 0; j < 11; j++) {
             for (let k = 0; k < 5; k++) {
@@ -277,7 +291,7 @@ function handlePlayerMove(i, j) {
             // black piece
             if (me) {
                 p1Win[k]++;
-                p2Win[k] = 6;
+                p2Win[k] = 6; // make p2Win impossible to win with kth pattern
                 if (p1Win[k] == 5) {
                     over = true;
                     showPopupMessage(`${blackPiece}(B) wins!`);
@@ -288,7 +302,7 @@ function handlePlayerMove(i, j) {
                 // In pve mode and player uses white pieces, p1Win is for player, p2Win is for AI
                 if(mode === "pve") {
                     p1Win[k]++;
-                    p2Win[k] = 6;
+                    p2Win[k] = 6; // make p2Win impossible to win with kth pattern
                     if (p1Win[k] == 5) {
                         over = true;
                         showPopupMessage(`${whitePiece}(W) wins!`);
@@ -296,7 +310,7 @@ function handlePlayerMove(i, j) {
                 }
                 else{
                     p2Win[k]++;
-                    p1Win[k] = 6;
+                    p1Win[k] = 6; // make p1Win impossible to win with kth pattern
                     if (p2Win[k] == 5) {
                         over = true;
                         showPopupMessage(`${whitePiece}(W) wins!`);
@@ -366,7 +380,7 @@ function computerAI() {
     for (let k = 0; k < count; k++) {
         if (wins[u][v][k]) {
             p2Win[k]++;
-            p1Win[k] = 6;
+            p1Win[k] = 6; // make p1Win impossible to win with kth pattern
             if (p2Win[k] == 5) {
                 over = true;
 

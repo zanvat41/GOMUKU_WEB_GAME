@@ -1,3 +1,23 @@
+## How To Play
+Download the repo and open index.html in your browser. Then you can enjoy the Gomoku game.
+
+1. **Choose a Game Mode:**  
+   On the home page(index.html), select "Play with Friend" for two-player mode or "Play with Computer" to challenge the AI.
+
+2. **Enter Player Names:**  
+   Enter your name(s) when prompted. In single-player mode, you’ll play against the computer.
+
+3. **Pick Sides:**  
+   Decide who will play as Black (go first) and who will play as White.
+
+4. **Gameplay:**  
+   - The game board is a 15x15 grid.
+   - Players take turns clicking on empty intersections to place their pieces (Black or White).
+   - The first player to get five of their pieces in a row (horizontally, vertically, or diagonally) wins the game.
+
+5. **Restart or Switch Modes:**  
+   After a game ends, you can restart, switch sides, or change between playing with a friend and playing with the computer.
+
 ## UI
 
 The game interface is built with HTML Canvas and JavaScript. The chessboard grid and pieces are drawn dynamically on the canvas, providing a smooth and interactive experience. Players can click directly on the board to place their pieces. Modal dialogs are used for entering player names, displaying game results, and restarting or switching sides, making the UI user-friendly and visually clear.
