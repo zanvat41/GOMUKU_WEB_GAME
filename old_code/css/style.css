@@ -45,11 +45,6 @@ h1 {
     left: 20px;  /* Align with Home button */
 }
 
-.btn.top-left.top-left-third {
-    position: absolute;
-    top: 142px;   /* 76px + 56px(height) + 10px(gap) */
-    left: 20px;  /* Align with Home button */}
-
 /* Modal styles */
 .modal {
     display: block;

@@ -1,3 +1,4 @@
+// TODO: There's bug when player chooses to go second, p1Win and p2Win arrays are not updated correctly
 const AI_NAME = "GOMOKU-AI";
 var player1 = "P1";
 var player2 = AI_NAME;

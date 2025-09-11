@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GOMOKU GAMEPLAY</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div id="nameModal" class="modal">
+      <div class="modal-content" id="modalContent">
+        <h2 id="modalTitle">Enter Player Names</h2>
+        <form id="nameForm" autocomplete="off">
+          <label>
+            Player 1:
+            <input type="text" id="player1Input" placeholder="P1" />
+          </label>
+          <br><br>
+          <label id="player2Label" style="display:none;">
+            Player 2:
+            <input type="text" id="player2Input" placeholder="P2" />
+          </label>
+          <br><br>
+          <button type="submit" class="btn">Start Game</button>
+        </form>
+      </div>
+    </div>
+    <div id="switchSidesModal" class="modal" style="display:none;">
+      <div class="modal-content" id="switchSidesContent">
+        <h2>Choose Side</h2>
+        <p id="switchSidesMsg"></p>
+        <div class="modal-btn-group">
+          <button id="switchYes" class="btn small">Yes</button>
+          <button id="switchNo" class="btn small">No</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn top-left" onclick="location.href='index.html'">Home</button>
+    <button class="btn top-left top-left-second" onclick="restartGame()">Restart</button>
+    <button class="btn top-left top-left-third" id="switchModeBtn"></button>
+    <h2 id="vsTitle" style="margin-top:30px; margin-bottom:10px;"></h2>
+    <canvas id="chess" width="450px" height="450px"></canvas>
+    <script type="text/javascript" src="js/game.js"></script>
+</body>
+</html>
